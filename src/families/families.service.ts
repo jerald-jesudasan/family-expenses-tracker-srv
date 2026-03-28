@@ -44,6 +44,26 @@ export class FamiliesService {
     return result;
   }
 
+  async addMember(familyId: string, data: any, requestingUserId: string) {
+    let user = await this.userModel.findOne({ email: data.email });
+    if (!user) {
+      user = await this.userModel.create({ email: data.email, name: data.name || data.email });
+    }
+
+    const existing = await this.memberModel.findOne({ family_id: familyId, user_id: user._id.toString() });
+    if (existing) return toPlain(existing);
+
+    const member = await this.memberModel.create({
+      family_id: familyId,
+      user_id: user._id.toString(),
+      role: data.role || 'member',
+      relationship: data.relationship || 'Member',
+      created_by: requestingUserId,
+    });
+
+    return { ...toPlain(member.toObject()), user: { id: user._id.toString(), name: user.name, email: user.email, avatar: user.avatar } };
+  }
+
   async invite(familyId: string, data: any, invitedBy: string) {
     const doc = await this.invitationModel.create({
       family_id: familyId,

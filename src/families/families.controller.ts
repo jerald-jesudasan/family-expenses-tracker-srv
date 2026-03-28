@@ -17,6 +17,11 @@ export class FamiliesController {
     return this.familiesService.getMembers(id);
   }
 
+  @Post(':id/members')
+  addMember(@Param('id') id: string, @Body() body: any, @Req() req: any) {
+    return this.familiesService.addMember(id, body, req.user.userId);
+  }
+
   @Post(':id/invite')
   invite(@Param('id') id: string, @Body() body: any, @Req() req: any) {
     return this.familiesService.invite(id, body, req.user.userId);

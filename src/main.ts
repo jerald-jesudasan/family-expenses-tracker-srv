@@ -1,8 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+
+const logger = new Logger('Bootstrap');
 import * as express from 'express';
 import type { Request, Response } from 'express';
 
@@ -47,7 +49,7 @@ if (!process.env.VERCEL) {
   createApp(server).then(() => {
     const port = process.env.PORT || 3000;
     server.listen(port, () => {
-      console.log(`Backend running on http://localhost:${port}`);
+      logger.log(`Backend running on http://localhost:${port}`);
     });
   });
 }

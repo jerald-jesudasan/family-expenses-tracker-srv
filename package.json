@@ -2,6 +2,7 @@
   "name": "family-expenses-tracker-srv",
   "version": "1.0.0",
   "description": "Family Expenses Tracker Backend",
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
     "build": "nest build",
     "start": "node dist/main",
